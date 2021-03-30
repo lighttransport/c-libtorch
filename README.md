@@ -13,6 +13,8 @@ This project implements minimal and partial(features required for our usecases) 
   * [ ] Visual Studio 2019
   * [ ] llvm-mingw
   * [ ] MinGW
+* [ ] macOS(Limited support)
+  * Big Sur x86/arm64
 * Optional: CUDA
 
 ## Supported libtorch version
@@ -45,6 +47,23 @@ Then,
 
 ```
 $ ./scripts/bootstrap-linux.sh
+$ cd build
+$ make
+```
+
+### macOS(Big Sur or later)
+
+CPU build only.
+
+Assume some dependencies(e.g. protobuf) are installed through macports or homebrew.
+
+If you want to build c-libtorch with pytorch package, you may need to delete linking with `libopenblas.dylib` in 
+`TORCH_DIR/python3.9/site-packages/torch/share/cmake/Caffe2/Caffe2Targets.cmake`
+
+Then,
+
+```
+$ ./scripts/bootstrap-macos.sh
 $ cd build
 $ make
 ```
