@@ -24,8 +24,9 @@ endif (C_LIBTORCH_PYTHON_ENABLED)
 
 set(CMAKE_C_STANDARD 11)
 
-# libtorch 1.8.0 or later requires C++17
-set(CMAKE_CXX_STANDARD 17)
+# libtorch 1.8.0 or later requires C++14
+# NOTE: C++17 build will fail on VS2019.
+set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 #set(CMAKE_CXX_EXTENSIONS OFF)
 
@@ -140,7 +141,8 @@ endif()
 
 target_include_directories(${C_LIBTORCH_BUILD_TARGET} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../../third_party/pybind11/include)
 
-#target_compile_options(torch_testmod PRIVATE "-D_GLIBCXX_USE_CXX11_ABI=0")
+# for dllexport on WIN32
+target_compile_definitions(${C_LIBTORCH_BUILD_TARGET} PRIVATE "C_TORCH_COMPILE_LIBRARY")
 
 if (C_LIBTORCH_PYTHON_ENABLED)
   # TORCH_INSTALL_PREFIX should be available after find_package(Torch)

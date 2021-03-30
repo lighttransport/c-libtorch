@@ -15,7 +15,6 @@ target_include_directories(${TEST_TARGET_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/src)
 
 target_link_libraries(${TEST_TARGET_NAME} PRIVATE ${C_LIBTORCH_BUILD_TARGET})
 if (C_LIBTORCH_PYTHON_ENABLED)
-  message(STATUS "PYU" ${PYTHON_LIBRARIES})
   target_link_directories(${TEST_TARGET_NAME} PRIVATE ${TORCH_INSTALL_PREFIX}/lib)
   target_link_libraries(${TEST_TARGET_NAME} PRIVATE Python::Python)
 endif()

@@ -1,6 +1,6 @@
-#include "c_libtorch.h"
-
 #include <torch/all.h>
+
+#include "c_libtorch.h"
 
 struct TensorData
 {
@@ -10,6 +10,8 @@ struct TensorData
 int test_c_libtorch() {
   return 0;
 }
+
+extern "C" {
 
 void c_torch_version(int *major, int *minor, int *patch)
 {
@@ -52,3 +54,5 @@ c_at_Tensor *c_torch_ones_1(int sz, c_torch_DType dtype) {
 
   return ct;
 }
+
+} // extern "C"
