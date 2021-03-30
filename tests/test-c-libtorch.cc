@@ -16,7 +16,7 @@ void test_version() {
 }
 
 void test_ones_f32_1() {
-  c_at_Tensor *tp = c_torch_ones_1(9, c_at_kFloat32);
+  c_at_Tensor *tp = c_torch_ones_1d(9, c_torch_kFloat32);
 }
 
 TEST_LIST = {

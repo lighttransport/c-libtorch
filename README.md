@@ -9,8 +9,8 @@ This project implements minimal and partial(features required for our usecases) 
 ## Supported platform
 
 * [x] Linux x86-64
-* [ ] Windows
-  * [ ] Visual Studio 2019
+* Windows
+  * [x] Visual Studio 2019
   * [ ] llvm-mingw
   * [ ] MinGW
 * [ ] macOS(Limited support)
@@ -29,15 +29,18 @@ This project implements minimal and partial(features required for our usecases) 
 ## Requirements
 
 * CMake 3.2 or later
-* C11 + C++17 compiler
+* C11 + C++14 compiler
+* (optional)CUDA and cuDNN
 
-## How to build
+## Build
 
-Prepare libtorch libraries. You can install pytorch or download prebuilt libtorch package, or build it from source code.
+### Install pytorch/libtorch
 
-Note that pytorch packages from https://pytorch.org/get-started/locally/ (conda or pip package) contains libtorch headers and libraries, and these are compiled with gcc + pre-C++11 ABI for Linux platform.
+Prepare libtorch libraries. You can install pytorch or download prebuilt libtorch package, or build it from source code. If your pytorch/libtorch build uses CUDA, you'll need to install CUDA SDK and cuDNN package also.
 
 ### Linux
+
+Note that pytorch packages from https://pytorch.org/get-started/locally/ (conda or pip package) contains libtorch headers and libraries, and these are compiled with gcc + pre-C++11 ABI for Linux platform.
 
 Edit path to libtorch in `scripts/bootstrap-linux.sh`.
 
@@ -51,13 +54,23 @@ $ cd build
 $ make
 ```
 
+### Windows
+
+Visual Studio 2019 is supported at the momenet.
+
+Run `vcsetup2019.bat`.
+
+Solution file will be generated in `build` directory.
+
+To run unit test, you'll need to set PATH to pytorch/libtordh dlls(or copy dlls to your working directory).
+
 ### macOS(Big Sur or later)
 
 CPU build only.
 
 Assume some dependencies(e.g. protobuf) are installed through macports or homebrew.
 
-If you want to build c-libtorch with pytorch package, you may need to delete linking with `libopenblas.dylib` in 
+If you want to build c-libtorch with pytorch package, you may need to delete linking with `libopenblas.dylib` in
 `TORCH_DIR/python3.9/site-packages/torch/share/cmake/Caffe2/Caffe2Targets.cmake`
 
 Then,
@@ -91,6 +104,7 @@ Example: `torch::cuda::is_available` -> `c_torch_cuda_is_available`
 ## TODO
 
 * [ ] TensorFlow C API style memory management.
+* [ ] Better error handling.
 
 ## License
 
