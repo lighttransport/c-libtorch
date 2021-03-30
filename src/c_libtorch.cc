@@ -1,6 +1,8 @@
+#include <torch/all.h>
+
 #include "c_libtorch.h"
 
-#include <torch/all.h>
+namespace {
 
 bool is_valid_dtype(c_torch_DType dtype) {
   if ((dtype == c_torch_kUint8)
@@ -29,14 +31,19 @@ constexpr auto get_dtype(c_torch_DType dtype) {
   throw std::invalid_argument("Unknown dtype");
 }
 
+int test_c_libtorch() {
+  return 0;
+}
+
+} // namespace
+
+extern "C" {
+
 struct TensorData
 {
   at::Tensor t;
 };
 
-int test_c_libtorch() {
-  return 0;
-}
 
 void c_torch_version(int *major, int *minor, int *patch)
 {
@@ -100,3 +107,5 @@ c_at_Tensor *c_torch_ones_1d(int sz, c_torch_DType dtype) {
 
   return c_torch_ones(1, shape, dtype);
 }
+
+} // extern "C"
