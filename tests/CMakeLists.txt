@@ -1,6 +1,6 @@
 set(TEST_TARGET_NAME test-c-libtorch)
 
-add_executable(${TEST_TARGET_NAME} test-c-libtorch.cc)
+add_executable(${TEST_TARGET_NAME} test-c-libtorch.c)
 add_sanitizers(${TEST_TARGET_NAME})
 
 if (WIN32)

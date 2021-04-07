@@ -20,6 +20,16 @@ extern "C" {
 
 #define C_TORCH_TENSOR_MAX_DIM  (8)
 
+#define C_TORCH_DEFAULT_DIM (-1)
+#define C_TORCH_DEFAULT_N (-1)
+
+typedef enum {
+  c_torch_fft_norm_none,
+  c_torch_fft_norm_forward,
+  c_torch_fft_norm_backward,
+  c_torch_fft_norm_ortho,
+} c_torch_fft_NormMode;
+
 typedef enum {
   c_torch_kInvalid,
   c_torch_kUint8,
@@ -38,13 +48,15 @@ typedef struct {
   c_torch_DType dtype;
   int ndim;
   int shape[C_TORCH_TENSOR_MAX_DIM];
-  TensorData *data;
+  struct TensorData *data;
 } c_at_Tensor;
 
-// Delete Tensor object.
-int delete_c_at_Tensor(c_at_Tensor *obj);
-
+// TODO: Remove
 int test_c_libtorch();
+
+// Delete Tensor object.
+C_TORCH_EXPORT int delete_c_at_Tensor(c_at_Tensor *obj);
+
 
 C_TORCH_EXPORT void c_torch_version(int *major, int *minor, int *patch);
 
@@ -65,6 +77,30 @@ C_TORCH_EXPORT c_at_Tensor *c_torch_ones_3d(int sz0, int sz1, int sz3, c_torch_D
 
 // Alias for torch::ones({sz0, sz1, sz2, sz3});
 C_TORCH_EXPORT c_at_Tensor *c_torch_ones_4d(int sz0, int sz1, int sz3, c_torch_DType dtype);
+
+//
+// torch::fft()
+// n: fft length. -1 = None
+//
+C_TORCH_EXPORT c_at_Tensor *c_torch_fft_fft(const c_at_Tensor *self, int64_t n, int64_t dim, c_torch_fft_NormMode norm_mode);
+
+//
+// torch::ifft()
+// n: fft length. -1 = None
+//
+C_TORCH_EXPORT c_at_Tensor *c_torch_fft_ifft(const c_at_Tensor *self, int64_t n, int64_t dim, c_torch_fft_NormMode norm_mode);
+
+//
+// torch::fft2()
+// n: fft length. -1 = None
+//
+C_TORCH_EXPORT c_at_Tensor *c_torch_fft_fft2(const c_at_Tensor *self, int64_t n[2], int64_t dim[2], c_torch_fft_NormMode norm_mode);
+
+//
+// torch::ifft2()
+// n: fft length. -1 = None
+//
+C_TORCH_EXPORT c_at_Tensor *c_torch_fft_ifft2(const c_at_Tensor *self, int64_t n[2], int64_t dim[2], c_torch_fft_NormMode norm_mode);
 
 #ifdef __cplusplus
 }

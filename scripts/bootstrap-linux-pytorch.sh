@@ -14,6 +14,9 @@ echo "TORCH_DIR = " ${TORCH_INSTALLED_DIR}
 # (optional) Explicitly specify the path to python
 # -DPYTHON_EXECUTABLE=/path/to/bin/python
 
+# (optional) Enable Address Sanitizer
+#  -DSANITIZE_ADDRESS=1
+
 Torch_DIR=${TORCH_INSTALLED_DIR} \
 CXX=clang++ CC=clang cmake -DCMAKE_BUILD_TYPE=Debug \
   -DTORCH_CXX_FLAGS="-D_GLIBCXX_USE_CXX11_ABI=0" \
