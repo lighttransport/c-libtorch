@@ -3,7 +3,8 @@ mkdir build
 
 cd build
 
-# Path to TorchConfig cmake files.
+# Path to TorchConfig cmake files. This script uses python to look up the path to TorchConfig.cmake.
+# You can also manually specify the path to torch e.g. TORCH_INSTALLED_DIR=/opt/torch/share/cmake
 TORCH_INSTALLED_DIR=`python -c "import site; print (site.getsitepackages()[0])"`/torch/share/cmake
 
 echo "TORCH_DIR = " ${TORCH_INSTALLED_DIR}

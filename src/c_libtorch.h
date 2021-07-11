@@ -51,11 +51,21 @@ typedef struct {
   struct TensorData *data;
 } c_at_Tensor;
 
+
+struct ModuleData; // Opaque
+
+typedef struct {
+  struct ModuleData *data;
+} c_torch_jit_script_Module;
+
 // TODO: Remove
 int test_c_libtorch();
 
 // Delete Tensor object.
 C_TORCH_EXPORT int delete_c_at_Tensor(c_at_Tensor *obj);
+
+// Delete Module object
+C_TORCH_EXPORT int delete_c_torch_jit_script_Module(c_torch_jit_script_Module *obj);
 
 
 C_TORCH_EXPORT void c_torch_version(int *major, int *minor, int *patch);
@@ -66,7 +76,7 @@ C_TORCH_EXPORT int c_torch_cuda_is_available();
 // torch::ones()
 C_TORCH_EXPORT c_at_Tensor *c_torch_ones(int ndim, int *shape, c_torch_DType dtype);
 
-// Alias for torch::ones({sz0}, at::kFloat32);
+// Alias for torch::ones({sz0});
 C_TORCH_EXPORT c_at_Tensor *c_torch_ones_1d(int sz0, c_torch_DType dtype);
 
 // Alias for torch::ones({sz0, sz1});
@@ -77,6 +87,19 @@ C_TORCH_EXPORT c_at_Tensor *c_torch_ones_3d(int sz0, int sz1, int sz3, c_torch_D
 
 // Alias for torch::ones({sz0, sz1, sz2, sz3});
 C_TORCH_EXPORT c_at_Tensor *c_torch_ones_4d(int sz0, int sz1, int sz3, c_torch_DType dtype);
+
+// torch::zeros()
+C_TORCH_EXPORT c_at_Tensor *c_torch_zeros(int ndim, int *shape, c_torch_DType dtype);
+
+// Useful aliases
+C_TORCH_EXPORT c_at_Tensor *c_torch_zeros_1d(int sz0, c_torch_DType dtype);
+C_TORCH_EXPORT c_at_Tensor *c_torch_zeros_2d(int sz0, int sz1, c_torch_DType dtype);
+C_TORCH_EXPORT c_at_Tensor *c_torch_zeros_3d(int sz0, int sz1, int sz2, c_torch_DType dtype);
+C_TORCH_EXPORT c_at_Tensor *c_torch_zeros_4d(int sz0, int sz1, int sz2, int sz3, c_torch_DType dtype);
+
+// torch::eye()
+C_TORCH_EXPORT c_at_Tensor *c_torch_eye(int n, c_torch_DType dtype);
+
 
 //
 // torch::fft()
@@ -101,6 +124,13 @@ C_TORCH_EXPORT c_at_Tensor *c_torch_fft_fft2(const c_at_Tensor *self, int64_t n[
 // n: fft length. -1 = None
 //
 C_TORCH_EXPORT c_at_Tensor *c_torch_fft_ifft2(const c_at_Tensor *self, int64_t n[2], int64_t dim[2], c_torch_fft_NormMode norm_mode);
+
+//
+// torch::jit::load()
+// return null when error loading a module(TODO: report an error);
+//
+C_TORCH_EXPORT c_torch_jit_script_Module *c_torch_jit_load(const char *filename);
+
 
 #ifdef __cplusplus
 }

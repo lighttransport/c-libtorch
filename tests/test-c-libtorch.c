@@ -2,6 +2,8 @@
 
 #include "c_libtorch.h"
 
+#define ASSET_PATH "../tests/"
+
 void test_tutorial() {
   TEST_CHECK_(1 == 1, "bora");
 }
@@ -30,10 +32,19 @@ void test_fft_f32() {
   delete_c_at_Tensor(ft);
 }
 
+void test_jit_load() {
+  c_torch_jit_script_Module *module = c_torch_jit_load(ASSET_PATH"jit-test.pt");
+
+  TEST_CHECK_(module != NULL, "Failed to load module");
+
+  delete_c_torch_jit_script_Module(module);
+}
+
 TEST_LIST = {
   { "tutorial", test_tutorial },
   { "version", test_version },
   { "ones(f32, n1)", test_ones_f32_1 },
   { "fft(f32)", test_fft_f32 },
+  { "jit_load()", test_jit_load },
   { NULL, NULL }
 };

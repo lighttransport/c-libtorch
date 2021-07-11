@@ -1,4 +1,5 @@
 #include <torch/all.h>
+#include <torch/script.h>
 
 #include "c_libtorch.h"
 
@@ -43,6 +44,11 @@ struct TensorData
   at::Tensor tensor;
 };
 
+struct ModuleData
+{
+  torch::jit::script::Module module;
+};
+
 
 void c_torch_version(int *major, int *minor, int *patch)
 {
@@ -59,6 +65,18 @@ void c_torch_version(int *major, int *minor, int *patch)
 }
 
 int delete_c_at_Tensor(c_at_Tensor *obj) {
+  if (obj == NULL) {
+    return -1;
+  }
+
+  delete obj->data;
+
+  free(obj);
+
+  return 0; // success
+}
+
+int delete_c_torch_jit_script_Module(c_torch_jit_script_Module *obj) {
   if (obj == NULL) {
     return -1;
   }
@@ -139,6 +157,27 @@ c_at_Tensor *c_torch_fft_fft(const c_at_Tensor *self, int64_t _n, int64_t dim, c
 
   return ct;
 
+}
+
+c_torch_jit_script_Module *c_torch_jit_load(const char *filename)
+{
+  torch::jit::script::Module module;
+
+  try {
+    module = torch::jit::load(filename);
+  } catch (const c10::Error &e) {
+    return nullptr;
+  }
+
+
+  c_torch_jit_script_Module *c_module = reinterpret_cast<c_torch_jit_script_Module *>(malloc(sizeof(c_torch_jit_script_Module)));
+
+  ModuleData *data = new ModuleData();
+  data->module = module;
+
+  c_module->data = data;
+
+  return c_module;
 }
 
 } // extern "C"

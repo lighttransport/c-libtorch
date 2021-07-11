@@ -2,24 +2,26 @@
 
 Experimental C binding for libtorch C++ interface.
 
-For faster compilation with libtorch library, embedding libtorch to other languages through ffi, etc.
+C binding is useful for rapid-prototyping with libtorch library, reduce linkage issue, embedding libtorch to other languages through ffi, etc.
 
-This project implements minimal and partial(features required for our usecases) C binding for libtorch API. There is no plan to implement solid and full C binding for libtorch.
+This project implements minimal and partial(features required for our usecases) C binding for libtorch API. There is no plan to implement solid and full C binding for libtorch(We think pytorch will officially release C binding in the future).
 
 ## Supported platform
 
-* [x] Linux x86-64
+* Linux
+  * [x] x86-64
+  * [ ] aarch64 should work
 * Windows
   * [x] Visual Studio 2019
   * [ ] llvm-mingw
   * [ ] MinGW
-* [ ] macOS(Limited support)
-  * Big Sur x86/arm64
+* macOS(Limited support)
+  * [x] Big Sur x86/arm64
 * Optional: CUDA
 
 ## Supported libtorch version
 
-* libtorch 1.8.0
+* libtorch 1.8.0 or later
 
 ### Status
 
@@ -81,12 +83,38 @@ $ cd build
 $ make
 ```
 
+### Example
+
+```c++
+
+#include "c_libtorch.h"
+
+int main(int argc, char **argv) {
+
+  int major, minor, patch;
+
+  c_torch_version(&major, &minor, &patch);
+
+  printf("version: %d.%d.%d\n", major, minor, patch);
+
+  printf("CUDA: %d\n", c_torch_cuda_is_available());
+
+  c_at_Tensor *tp = c_torch_ones_1d(9, c_torch_kFloat32);
+
+  c_at_Tensor *ft = c_torch_fft_fft(tp, /* n */-1, C_TORCH_DEFAULT_DIM, c_torch_fft_norm_none);
+
+  delete_c_at_Tensor(tp);
+  delete_c_at_Tensor(ft);
+
+  return 0;
+}
+
+```
+
 ### Memory management
 
 Currently c-libtorch does not have a policy for memory management.
 C struct simply wraps C++ object(Assume no `detach()`, `clone()` operation for Tensor).
-
-### API note
 
 ### Variable
 
@@ -99,6 +127,16 @@ Example: `at::Tensor` -> `c_at_Tensor`
 C API has `c_` prefix. C++ namespaces are concatenated with `_`
 
 Example: `torch::cuda::is_available` -> `c_torch_cuda_is_available`
+
+### Implemented APIs
+
+* [x] `torch::version`
+* [x] `torch::cuda::is_available`
+* [x] `torch::ones`
+* [x] `torch::zeros`
+* [ ] `torch::eye`
+* [ ] `torch::jit::load`
+* [x] `torch::fft`, `torch::ifft`
 
 
 ## TODO
