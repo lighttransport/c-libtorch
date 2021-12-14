@@ -132,7 +132,7 @@ c_at_Tensor *c_torch_fft_fft(const c_at_Tensor *self, int64_t _n, int64_t dim, c
     n = _n;
   }
 
-  c10::optional<std::string> norm = c10::nullopt;
+  c10::optional<c10::string_view> norm = c10::nullopt;
 
   if (norm_mode == c_torch_fft_norm_forward) {
     norm = "forward";

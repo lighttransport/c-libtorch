@@ -21,7 +21,7 @@ This project implements minimal and partial(features required for our usecases) 
 
 ## Supported libtorch version
 
-* libtorch 1.8.0 or later
+* libtorch 1.10.0 or later
 
 ### Status
 
