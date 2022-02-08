@@ -40,11 +40,17 @@ void test_jit_load() {
   delete_c_torch_jit_script_Module(module);
 }
 
+void test_cuda() {
+  int has_cuda = c_torch_cuda_is_available();
+  printf("cuda? %d\n", has_cuda);	
+}
+
 TEST_LIST = {
   { "tutorial", test_tutorial },
   { "version", test_version },
   { "ones(f32, n1)", test_ones_f32_1 },
   { "fft(f32)", test_fft_f32 },
+  { "cuda", test_cuda },
   { "jit_load()", test_jit_load },
   { NULL, NULL }
 };

@@ -64,6 +64,12 @@ void c_torch_version(int *major, int *minor, int *patch)
 
 }
 
+int c_torch_cuda_is_available()
+{
+  return torch::cuda::is_available();
+}
+
+
 int delete_c_at_Tensor(c_at_Tensor *obj) {
   if (obj == NULL) {
     return -1;
