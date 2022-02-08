@@ -144,13 +144,15 @@ target_include_directories(${C_LIBTORCH_BUILD_TARGET} PRIVATE ${CMAKE_CURRENT_SO
 # for dllexport on WIN32
 target_compile_definitions(${C_LIBTORCH_BUILD_TARGET} PRIVATE "C_TORCH_COMPILE_LIBRARY")
 
-if (C_LIBTORCH_PYTHON_ENABLED)
-  # TORCH_INSTALL_PREFIX should be available after find_package(Torch)
-  # Required for -ltorch_python
-  target_link_directories(${C_LIBTORCH_BUILD_TARGET} PRIVATE ${TORCH_INSTALL_PREFIX}/lib)
+# TORCH_INSTALL_PREFIX should be available after find_package(Torch)
+# Required for -ltorch_python
+target_link_directories(${C_LIBTORCH_BUILD_TARGET} PRIVATE ${TORCH_INSTALL_PREFIX}/lib)
 
+if (C_LIBTORCH_PYTHON_ENABLED)
   target_link_libraries(${C_LIBTORCH_BUILD_TARGET} PUBLIC "${TORCH_LIBRARIES}"
       torch_python Python::Python)
+else()
+  target_link_libraries(${C_LIBTORCH_BUILD_TARGET} PUBLIC "${TORCH_LIBRARIES}")
 endif()
 
 
