@@ -4,7 +4,10 @@ Experimental C binding for libtorch C++ interface.
 
 C binding is useful for rapid-prototyping with libtorch library, reduce linkage issue, embedding libtorch to other languages through ffi, etc.
 
-This project implements minimal and partial(features required for our usecases) C binding for libtorch API. There is no plan to implement solid and full C binding for libtorch(We think pytorch will officially release C binding in the future).
+This project implements minimal and partial(features required for our usecases) C binding for libtorch API. 
+
+There is no plan to implement solid and full C binding for libtorch(We think pytorch will officially release C binding in the future).
+But the plan will be changed if someone sponsor this project.
 
 ## Supported platform
 
@@ -12,7 +15,7 @@ This project implements minimal and partial(features required for our usecases) 
   * [x] x86-64
   * [ ] aarch64 should work
 * Windows
-  * [x] Visual Studio 2019
+  * [x] Visual Studio 2019, 2022
   * [ ] llvm-mingw
   * [ ] MinGW
 * macOS(Limited support)
